@@ -1,0 +1,4 @@
+[flyway]
+locations = ["filesystem:migrations"]
+url = "jdbc:postgresql://localhost:5432/capstone"
+user = "postgres"
