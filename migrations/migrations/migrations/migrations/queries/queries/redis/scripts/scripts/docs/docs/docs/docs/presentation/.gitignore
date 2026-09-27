@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment and secrets
+.env
+*.secret
+
+# PostgreSQL backups
+backups/*.dump
+
+# Flyway local configuration containing credentials
+flyway.local.toml
