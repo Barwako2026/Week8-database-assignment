@@ -1,0 +1,65 @@
+Table tenants {
+  id bigint [pk, increment]
+  name varchar(150)
+  created_at timestamptz
+}
+
+Table app_users {
+  id bigint [pk, increment]
+  tenant_id bigint
+  full_name varchar(150)
+  email_hash varchar(64)
+  role varchar(30)
+  created_at timestamptz
+}
+
+Table products {
+  id bigint [pk, increment]
+  tenant_id bigint
+  name varchar(200)
+  description text
+  price decimal
+  stock_quantity integer
+  is_active boolean
+  created_at timestamptz
+  updated_at timestamptz
+}
+
+Table orders {
+  id bigint [pk, increment]
+  tenant_id bigint
+  user_id bigint
+  order_number varchar(50)
+  status varchar(30)
+  total_amount decimal
+  created_at timestamptz
+}
+
+Table order_items {
+  id bigint [pk, increment]
+  tenant_id bigint
+  order_id bigint
+  product_id bigint
+  quantity integer
+  unit_price decimal
+  line_total decimal
+}
+
+Table audit_log {
+  id bigint [pk, increment]
+  tenant_id bigint
+  table_name text
+  operation text
+  old_row jsonb
+  new_row jsonb
+  changed_by text
+  changed_at timestamptz
+}
+
+Ref: tenants.id < app_users.tenant_id
+Ref: tenants.id < products.tenant_id
+Ref: tenants.id < orders.tenant_id
+Ref: tenants.id < order_items.tenant_id
+Ref: orders.id < order_items.order_id
+Ref: products.id < order_items.product_id
+Ref: app_users.id < orders.user_id
